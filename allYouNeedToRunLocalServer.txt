@@ -1,0 +1,10 @@
+project_Initialize: [npm init -y] {Here remove "type": "module/commonjs"}
+	then dev dependency, [npm i -D typescript]{because need for development but no need for production that's why 	using dev dependency}
+Next, create ts config file: [npx tsc --init] {here uncomment rootDir and outDir. and change "module":nodenext to "module":esnext also 'type':["node"] lastly at the bottom commentout "jsx":"React-jsx"}
+
+Next, [npm install -D @types/node]
+
+Next, create src folder, in src folder create server.ts
+	here, write code. To run the code we have to install package[npm i tsx]
+	then write ["dev":"tsx watch ./ServerFileLocation"] inside "Script":{} in the package.json file
+Next, [npm run dev] to run the server
