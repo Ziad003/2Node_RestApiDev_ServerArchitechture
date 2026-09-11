@@ -12,7 +12,7 @@ export const parseBody=(req:IncomingMessage):Promise<any> =>{
             try {
                 resolve(JSON.parse(body))
             } catch (error) {
-                reject(error)
+                reject(error) 
             }
         })
     })

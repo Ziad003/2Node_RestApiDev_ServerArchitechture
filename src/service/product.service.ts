@@ -11,3 +11,7 @@ const products=fs.readFileSync(filePath,"utf-8");
 console.log(JSON.parse(products))
 return JSON.parse(products);
 };
+
+export const insartProduct=(payLoad:any)=>{
+    fs.writeFileSync(filePath,JSON.stringify(payLoad))
+}
