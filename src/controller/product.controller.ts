@@ -63,5 +63,30 @@ export const productController = async (
         data:newProduct
       }),
     );
+  }else if(method==="PUT" && id!==null){
+    const body=await parseBody(req)
+    const products=readProduct()
+
+    const index=products.findIndex((p:IProduct)=>p.id===id)
+    // console.log(index);
+    if(index<0){
+      res.writeHead(404, { "Content-type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product not found!",
+        data: null,
+      }),
+    );
+    }
+    // console.log(products[index])
+    products[index]={id:products[index].id,...body};
+    insartProduct(products)
+    res.writeHead(200, { "Content-type": "application/json" });
+    res.end(
+      JSON.stringify({
+        message: "Product updated successfully",
+        data: products[index],
+      }),
+    );
   }
 };
