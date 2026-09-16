@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { insartProduct, readProduct } from "../service/product.service";
 import type { IProduct } from "../types/product.type";
 import { parseBody } from "../utility/parseBody";
+import { sendResponse } from "../utility/sendResponse";
 
 export const productController = async (
   req: IncomingMessage,
@@ -22,35 +23,26 @@ export const productController = async (
     //     name:"Product-1"
     // }]
 
-    const products = readProduct();
-    res.writeHead(200, { "Content-type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Products retrive successfully",
-        data: products,
-      }),
-    );
+    try {
+      const products = readProduct();
+    return sendResponse(res,200,true,"Products retrive successfully",products)
+    } catch (error) {
+    return sendResponse(res,500,false,"Something went wrong!",error)
+    }
+    
   } else if (method === "GET" && id !== null) {
     const products = readProduct();
     const product = products.find((p: IProduct) => p.id === id);
     // console.log(product);
     if (!product) {
-      res.writeHead(404, { "Content-type": "application/json" });
-      return res.end(
-        JSON.stringify({
-          message: "Product not found!",
-          data: null,
-        }),
-      );
+      return sendResponse(res,404,false,"Product not found!")
     }
 
-    res.writeHead(200, { "Content-type": "application/json" });
-    res.end(
-      JSON.stringify({
-        message: "Product retrive successfully",
-        data: product,
-      }),
-    );
+    try {
+      return sendResponse(res,200,true,"Product retrive successfully",products)
+    } catch (error) {
+      return sendResponse(res,500,false,"Something went wrong!",error)
+    }
   }
   //
   else if (method === "POST" && url === "/products") {
